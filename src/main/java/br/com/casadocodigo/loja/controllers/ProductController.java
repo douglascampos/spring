@@ -1,9 +1,11 @@
 package br.com.casadocodigo.loja.controllers;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,11 +23,16 @@ public class ProductController {
 	@Autowired
 	private ProductDAO productDao;
 	
+	//A ordem do parametro bindingResult importa!
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(Product product, RedirectAttributes redirectAttributes) {
+	public ModelAndView save(@Valid Product product, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()){
+			return form(product);
+		}
+		
 		productDao.save(product);
 		redirectAttributes.addFlashAttribute("success", "Produto cadastrado com sucesso");
-		return "redirect:products";
+		return new ModelAndView("redirect:/products");
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -36,10 +43,10 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/form")
-	public ModelAndView form() {
+	public ModelAndView form(Product product) {
 		ModelAndView modelAndView = new ModelAndView("products/form");
 		modelAndView.addObject("types", BookType.values());
 		return modelAndView;
 	}
-
+	
 }

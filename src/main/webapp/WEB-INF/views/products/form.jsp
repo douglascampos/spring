@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,19 +10,37 @@
 <title>Cadastro de produtos</title>
 </head>
 <body>
-	<form method="post" action="<c:url value="/products" />">
+
+	<%-- <spring:hasBindErrors name="product">
+		<ul>
+			<c:forEach items="${errors.allErrors}" var="error">
+				<li>
+					<spring:message code="${error.code}" text="${error.defaultMessage}"/>
+				</li>
+			</c:forEach>
+		</ul>
+	</spring:hasBindErrors> --%>
+
+	<form:form method="post" action="${spring:mvcUrl('PC#save').build()}" commandName="product">
 		<div>
-			<label for="title">Título</label> <input id="title" name="title"
-				type="text" />
+			<label for="title">Título</label>
+			<form:input path="title"/>
+			<form:errors path="title"/>
 		</div>
 		<div>
-			<label for="description">Descrição</label>
-			<textarea id="description" name="description" rows="10" cols="20">
-		</textarea>
+			<label for="description">  </label>
+			<form:textarea path="description" rows="10" cols="20"/>
+			<form:errors path="description"/>
 		</div>
 		<div>
-			<label for="pages">Número de páginas</label> <input id="pages"
-				name="pages" type="text" />
+			<label for="pages">Número de páginas</label> 
+			<form:input path="pages" />
+			<form:errors path="pages"/>
+		</div>
+		<div>
+			<label for="releaseDate">Data de lançamento</label>
+			<form:input path="releaseDate" type="date" />
+			<form:errors path="releaseDate" />
 		</div>
 		<c:forEach items="${types}" var="bookType" varStatus="status">
 			<div>
@@ -35,7 +55,7 @@
 			<input type="submit" value="Enviar">
 		</div>
 
-	</form>
+	</form:form>
 
 </body>
 </html>
