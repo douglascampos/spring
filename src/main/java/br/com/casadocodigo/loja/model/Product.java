@@ -31,6 +31,7 @@ public class Product {
 	private int pages;
 	@DateTimeFormat
 	private Calendar releaseDate;
+	private String summaryPath;
 
 	@ElementCollection
 	private List<Price> prices = new ArrayList<Price>();
@@ -78,6 +79,14 @@ public class Product {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public String getSummaryPath() {
+		return summaryPath;
+	}
+
+	public void setSummaryPath(String summaryPath) {
+		this.summaryPath = summaryPath;
 	}
 	
 }

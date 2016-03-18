@@ -25,6 +25,9 @@
              [${price.value} - ${price.bookType}]
            </c:forEach>
          </td>
+         <td>
+			<img alt="Imagem do livro" src="${product.summaryPath}">
+         </td>
        </tr>
      </c:forEach>
    </table>
